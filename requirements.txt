@@ -3,7 +3,12 @@ SpeechRecognition>=3.10.0    # Speech-to-text functionality
 pyaudio>=0.2.11              # Microphone access
 fastmcp>=0.1.0               # MCP server framework
 
-# Speech Recognition Backends
+# ElevenLabs Integration (Primary)
+elevenlabs>=1.0.0            # ElevenLabs API client
+websockets>=11.0.0           # For real-time streaming
+aiohttp>=3.8.0               # Async HTTP client
+
+# Speech Recognition Backends (Fallback)
 openai-whisper>=20230918     # Local Whisper models
 torch>=2.0.0                 # For Whisper GPU acceleration (optional)
 
