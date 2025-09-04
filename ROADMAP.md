@@ -7,14 +7,14 @@ Building a voice command interface for Claude Code using MCP (Model Context Prot
 
 ### Sprint 0: Project Setup ⏱️ 30 minutes
 **Goal**: Establish project structure and dependencies  
-**Status**: 🚧 In Progress
+**Status**: ✅ Complete
 
 - [x] Create project directory structure
-- [ ] Initialize git repository  
-- [ ] Create virtual environment
-- [ ] Install base dependencies (SpeechRecognition, pyaudio, fastmcp)
-- [ ] Set up logging configuration
-- [ ] Create initial documentation (README, CLAUDE.md)
+- [x] Initialize git repository  
+- [x] Create virtual environment
+- [x] Install base dependencies (in requirements.txt)
+- [x] Set up logging configuration (in .env.example)
+- [x] Create initial documentation (README, CLAUDE.md)
 
 **Deliverable**: Working project skeleton with dependencies installed  
 **Success Metric**: Can run `python -m mcp_server.voice_server --help` without errors
@@ -195,7 +195,7 @@ Building a voice command interface for Claude Code using MCP (Model Context Prot
 
 | Sprint | Status | Started | Completed | Notes |
 |--------|--------|---------|-----------|-------|
-| 0 | 🚧 In Progress | 2025-01-03 | - | Project setup |
+| 0 | ✅ Complete | 2025-01-03 | 2025-01-03 | Project setup complete |
 | 1 | ⏳ Pending | - | - | - |
 | 2 | ⏳ Pending | - | - | - |
 | 3 | ⏳ Pending | - | - | - |
