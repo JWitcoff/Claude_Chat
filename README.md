@@ -24,8 +24,8 @@ Enable natural voice interaction with Claude Code through MCP (Model Context Pro
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/claude-voice-commands.git
-cd claude-voice-commands
+git clone https://github.com/JWitcoff/Claude_Chat.git
+cd Claude_Chat
 ```
 
 2. Create virtual environment:
@@ -44,7 +44,7 @@ pip install -r requirements.txt
 python tests/test_microphone.py
 ```
 
-5. Configure Claude Desktop:
+5. Configure Claude Desktop (Sprint 2+):
 Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```json
 {
@@ -52,9 +52,9 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
     "voice-commands": {
       "command": "python",
       "args": ["-m", "mcp_server.voice_server"],
-      "cwd": "/path/to/claude-voice-commands",
+      "cwd": "/path/to/Claude_Chat",
       "env": {
-        "PYTHONPATH": "/path/to/claude-voice-commands"
+        "PYTHONPATH": "/path/to/Claude_Chat"
       }
     }
   }
