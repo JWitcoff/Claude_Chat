@@ -44,49 +44,60 @@ pip install -r requirements.txt
 python tests/test_microphone.py
 ```
 
-5. Configure Claude Desktop (Sprint 2+):
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+5. Configure Claude Desktop (Available Now):
+See [CLAUDE_DESKTOP_SETUP.md](CLAUDE_DESKTOP_SETUP.md) for complete setup instructions.
+
+Quick setup:
 ```json
 {
   "mcpServers": {
-    "voice-commands": {
+    "claude-voice-commands": {
       "command": "python",
       "args": ["-m", "mcp_server.voice_server"],
       "cwd": "/path/to/Claude_Chat",
       "env": {
-        "PYTHONPATH": "/path/to/Claude_Chat"
+        "PYTHONPATH": "/path/to/Claude_Chat",
+        "VOICE_BACKEND": "elevenlabs"
       }
     }
   }
 }
 ```
 
-6. Restart Claude Desktop
+6. Restart Claude Desktop and test with: **"Test my microphone setup"**
 
 ## Usage
 
-### Basic Commands
+### Available Voice Commands (Sprint 2)
 
-Say to Claude Code:
-- **"Activate voice mode"** - Start continuous listening
-- **"Stop voice mode"** - Stop listening
-- **"Hey Claude, [command]"** - Wake word activation
+**Setup & Testing:**
+- **"Test my microphone setup"** - Verify audio configuration
+- **"What voice recognition engines are available?"** - Check system status
+- **"List my audio devices"** - Show available microphones
+- **"Calibrate my microphone"** - Adjust for ambient noise
+
+**Voice Input:**  
+- **"I want to give you a voice command"** - Single voice input
+- **"Transcribe what I'm about to say"** - Record and convert speech
+- **"Listen for my voice input for 10 seconds"** - Timed recording
 
 ### Example Interactions
 
+**Current (Sprint 2):**
 ```
-You: "Activate voice mode"
-Claude: ✅ Voice mode activated
+You: "Test my microphone setup"  
+Claude: ✅ Microphone test passed! Device: MacBook Pro Microphone
 
-You: "Create a Python function to sort a list"
-Claude: [Creates the function]
-
-You: "Now add error handling to it"
-Claude: [Modifies the code]
-
-You: "Stop voice mode"
-Claude: ✅ Voice mode deactivated
+You: "I want to give you a voice command"
+Claude: 🎤 Ready to listen. Please speak your command.
+You: [Speak: "Create a Python function to sort a list"]
+Claude: [Creates the function based on your voice input]
 ```
+
+**Coming in Sprint 3:**
+- Continuous listening mode
+- Wake word activation ("Hey Claude")
+- Command queuing and chaining
 
 ## Configuration
 
@@ -107,8 +118,13 @@ See [ROADMAP.md](ROADMAP.md) for the development plan and [CLAUDE.md](CLAUDE.md)
 
 ### Current Status
 
-- Sprint 0: Project Setup ✅
-- Sprint 1: Basic Voice Capture (In Progress)
+- **✅ Sprint 0**: Project Setup Complete
+- **✅ Sprint 1**: ElevenLabs Voice Recognition Complete  
+- **✅ Sprint 2**: MCP Server Foundation Complete
+- **🚧 Sprint 3**: Continuous Listening Mode (In Development)
+
+**Main Branch**: Stable releases with Sprint 0-2 complete  
+**Development Branch**: `sprint-3-continuous-listening` for new features
 
 ## Troubleshooting
 
