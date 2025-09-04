@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "voice-commands": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mcp_server.voice_server"
+      ],
+      "cwd": "/path/to/claude-voice-commands",
+      "env": {
+        "PYTHONPATH": "/path/to/claude-voice-commands",
+        "VOICE_BACKEND": "google",
+        "WAKE_WORDS": "hey claude,claude",
+        "LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}
