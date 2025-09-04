@@ -22,17 +22,19 @@ Building a voice command interface for Claude Code using MCP (Model Context Prot
 ---
 
 ### Sprint 1: Basic Voice Capture ⏱️ 1 hour
-**Goal**: Prove we can capture and transcribe voice  
-**Status**: ⏳ Pending
+**Goal**: Prove we can capture and transcribe voice (Updated: ElevenLabs focus)  
+**Status**: 🚧 In Progress
 
-- [ ] Implement microphone test script
-- [ ] Create basic speech-to-text using Google Speech Recognition  
-- [ ] Add Whisper local as fallback
-- [ ] Test audio calibration for ambient noise
-- [ ] Create simple CLI for testing transcription
+- [x] Implement microphone test script with full test suite
+- [x] Create ElevenLabs speech recognition integration (primary)
+- [x] Add Google Speech Recognition fallback
+- [x] Add Whisper local as secondary fallback
+- [x] Test audio calibration for ambient noise
+- [ ] Test ElevenLabs API connection with actual key
+- [ ] Create MCP server with basic voice tools
 
-**Deliverable**: `test_voice.py` that prints what you say  
-**Success Metric**: Can transcribe with > 80% accuracy
+**Deliverable**: Full speech recognition system with ElevenLabs primary + fallbacks  
+**Success Metric**: Can transcribe with > 95% accuracy using ElevenLabs
 
 ---
 
@@ -196,7 +198,7 @@ Building a voice command interface for Claude Code using MCP (Model Context Prot
 | Sprint | Status | Started | Completed | Notes |
 |--------|--------|---------|-----------|-------|
 | 0 | ✅ Complete | 2025-01-03 | 2025-01-03 | Project setup complete |
-| 1 | ⏳ Pending | - | - | - |
+| 1 | 🚧 In Progress | 2025-01-03 | - | ElevenLabs integration |
 | 2 | ⏳ Pending | - | - | - |
 | 3 | ⏳ Pending | - | - | - |
 | 4 | ⏳ Pending | - | - | - |
