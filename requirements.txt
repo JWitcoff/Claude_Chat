@@ -11,6 +11,7 @@ aiohttp>=3.8.0               # Async HTTP client
 # Speech Recognition Backends (Fallback)
 openai-whisper>=20230918     # Local Whisper models
 torch>=2.0.0                 # For Whisper GPU acceleration (optional)
+soundfile>=0.12.1            # Audio file I/O for Whisper
 
 # Utilities
 python-dotenv>=1.0.0         # Environment variable management

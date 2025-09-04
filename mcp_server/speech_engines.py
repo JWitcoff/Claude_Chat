@@ -70,12 +70,21 @@ class ElevenLabsEngine(SpeechEngine):
         
         # Import ElevenLabs SDK
         try:
-            from elevenlabs import ElevenLabs
-            from elevenlabs.conversational_ai import ConversationalAI
-            self.client = ElevenLabs(api_key=os.getenv('ELEVENLABS_API_KEY'))
-            self.available = True
-        except ImportError:
-            logger.error("ElevenLabs SDK not available. Install with: pip install elevenlabs")
+            from elevenlabs import ElevenLabs, Voice
+            self.ElevenLabs = ElevenLabs
+            self.Voice = Voice
+            
+            api_key = os.getenv('ELEVENLABS_API_KEY')
+            if not api_key:
+                logger.warning("No ElevenLabs API key found")
+                self.available = False
+                self.client = None
+            else:
+                self.client = ElevenLabs(api_key=api_key)
+                self.available = True
+                logger.info("ElevenLabs client initialized successfully")
+        except ImportError as e:
+            logger.error(f"ElevenLabs SDK not available: {e}. Install with: pip install elevenlabs")
             self.available = False
             self.client = None
         except Exception as e:
@@ -127,22 +136,41 @@ class ElevenLabsEngine(SpeechEngine):
                 temp_file.write(audio_bytes)
                 temp_file_path = temp_file.name
             
-            # Use ElevenLabs transcription
-            # Note: Adjust this based on the actual ElevenLabs Python SDK API
-            # This is a placeholder - will need to be updated with actual API calls
-            
-            # For now, using a simulated response structure
-            # TODO: Replace with actual ElevenLabs API call
-            response = {
-                'transcript': 'ElevenLabs transcription placeholder',
-                'confidence': 0.95,
-                'duration': 0.0
-            }
-            
-            # Clean up temp file
-            os.unlink(temp_file_path)
-            
-            return response
+            try:
+                # Use ElevenLabs speech-to-text API
+                with open(temp_file_path, 'rb') as audio_file:
+                    result = self.client.speech_to_text.convert(
+                        model_id="eleven_turbo_v2_5",
+                        file=audio_file,
+                    )
+                
+                # Extract text from result
+                if hasattr(result, 'text'):
+                    transcript_text = result.text
+                elif isinstance(result, dict) and 'text' in result:
+                    transcript_text = result['text']
+                elif isinstance(result, str):
+                    transcript_text = result
+                else:
+                    logger.error(f"Unexpected ElevenLabs result format: {type(result)}")
+                    transcript_text = str(result)
+                
+                response = {
+                    'transcript': transcript_text,
+                    'confidence': 0.95,  # ElevenLabs doesn't provide confidence scores
+                    'duration': 0.0,
+                    'provider': 'elevenlabs'
+                }
+                
+                logger.info(f"ElevenLabs transcription successful: '{transcript_text[:50]}...'")
+                return response
+                
+            finally:
+                # Clean up temp file
+                try:
+                    os.unlink(temp_file_path)
+                except:
+                    pass
             
         except Exception as e:
             logger.error(f"ElevenLabs API error: {e}")
@@ -186,11 +214,16 @@ class WhisperEngine(SpeechEngine):
         # Check if Whisper is available
         try:
             import whisper
-            self.model_name = config.get('model_size', 'base')
+            self.model_name = (config or {}).get('model_size', 'base')
             self.model = whisper.load_model(self.model_name)
             self.available = True
+            logger.info(f"Whisper model '{self.model_name}' loaded successfully")
         except ImportError:
             logger.error("Whisper not available. Install with: pip install openai-whisper")
+            self.available = False
+            self.model = None
+        except Exception as e:
+            logger.error(f"Failed to load Whisper model: {e}")
             self.available = False
             self.model = None
     
@@ -258,6 +291,19 @@ class MultiEngine:
         if self.engines:
             first_engine = next(iter(self.engines.values()))
             first_engine.calibrate_microphone(duration)
+    
+    def test_microphone(self, duration: float = 3.0) -> Dict[str, Any]:
+        """Test microphone setup using first available engine"""
+        if not self.engines:
+            return {
+                'success': False,
+                'error': 'No recognition engines available',
+                'microphone_index': 'unknown'
+            }
+        
+        # Use the first available engine for testing
+        first_engine = next(iter(self.engines.values()))
+        return first_engine.test_microphone(duration)
     
     async def recognize_with_fallback(self, audio_data) -> RecognitionResult:
         """Try recognition with primary engine, fallback on failure"""
@@ -327,6 +373,7 @@ class MultiEngine:
                 }
                 
         except Exception as e:
+            logger.error(f"Microphone test failed: {e}")
             return {
                 'success': False,
                 'error': str(e),
